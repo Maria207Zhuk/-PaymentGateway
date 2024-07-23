@@ -1,19 +1,22 @@
 package com.zhuk;
+
+import java.time.LocalDate;
+
 public class PaymentProcessor {
-    private Bank bank;
+    private final Bank bank;
 
     public PaymentProcessor() {
         this.bank = new Bank();
     }
 
-    public void processPurchase(Terminal terminal, double amount) {
-        Transaction transaction = new Transaction(-amount);
-        terminal.sendTransaction(transaction, bank);
+    public void processPurchase(String subscriberId, double amount) {
+        Transaction transaction = new Transaction(-amount, LocalDate.now(), subscriberId);
+        bank.addTransaction(transaction);
     }
 
-    public void processSale(Terminal terminal, double amount) {
-        Transaction transaction = new Transaction(amount);
-        terminal.sendTransaction(transaction, bank);
+    public void processSale(String subscriberId, double amount) {
+        Transaction transaction = new Transaction(amount, LocalDate.now(), subscriberId);
+        bank.addTransaction(transaction);
     }
 
     public Bank getBank() {
